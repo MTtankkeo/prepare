@@ -5,16 +5,15 @@ import 'source_file.dart';
 class SourceFileManager {
   const SourceFileManager._();
 
-  static SourceFile? load(File file) {
-    final isDartFile = file.path.endsWith(".dart");
-    final isDataFile = file.path.endsWith(".datagen.dart");
-
-    // Skip non-Dart or generated files.
-    if (!isDartFile || isDataFile) {
+  /// Loads a [SourceFile] from the given [file] if its extension
+  /// matches one of the allowed [extensions].
+  static SourceFile? load(File file, List<String> extensions) {
+    // Skip files that don't match any of the given extensions.
+    if (!extensions.any((e) => file.path.endsWith(e))) {
       return null;
     }
 
-    // Read file content and create a SourceFile instance
+    // Read file content and create a SourceFile instance.
     final content = file.readAsStringSync();
     return SourceFile(path: file.path, text: content);
   }
@@ -22,7 +21,7 @@ class SourceFileManager {
   /// Recursively loads all files under [entryDir] and
   /// returns them as a list of [SourceFile] instances.
   /// Throws an exception if [entryDir] does not exist.
-  static List<SourceFile> loadAll(Directory entryDir) {
+  static List<SourceFile> loadAll(Directory entryDir, List<String> extensions) {
     if (!entryDir.existsSync()) {
       throw Exception("Directory '${entryDir.path}' does not exist.");
     }
@@ -33,7 +32,7 @@ class SourceFileManager {
     void collectFiles(Directory dir) {
       for (var entity in dir.listSync()) {
         if (entity is File) {
-          final sourceFile = load(entity);
+          final sourceFile = load(entity, extensions);
 
           // Read file content and create a SourceFile instance
           if (sourceFile != null) {

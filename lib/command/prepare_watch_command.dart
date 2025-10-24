@@ -13,7 +13,7 @@ abstract class PrepareWatchCommand extends Command {
   @override
   String get description => "Generates files for Dart with watch mode.";
 
-  /// Returns the instance of [PrepareBuilder]. 
+  /// Returns the instance of [PrepareBuilder].
   PrepareBuilder get builder;
 
   @override
@@ -22,7 +22,10 @@ abstract class PrepareWatchCommand extends Command {
 
     try {
       // Start the build process on the current directory.
-      log("Starting ${builder.name.toLowerCase()} build in watch mode...", color: yellow);
+      log(
+        "Starting ${builder.name.toLowerCase()} build in watch mode...",
+        color: yellow,
+      );
 
       // Watch for changes.
       await for (final event in dir.watch(recursive: true)) {

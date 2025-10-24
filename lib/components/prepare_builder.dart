@@ -8,6 +8,9 @@ abstract class PrepareBuilder {
   /// The unique name that identifies this builder.
   String get name;
 
+  /// The list of file extensions this builder is responsible for processing.
+  List<String> get extensions;
+
   /// Executes the build process for the given [SourceFile].
-  Future<void> build(SourceFile source);
+  Future<bool> build(SourceFile source);
 }

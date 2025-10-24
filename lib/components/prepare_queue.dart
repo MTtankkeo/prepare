@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:prepare/command/prepare_build_command.dart';
 import 'package:prepare/components/prepare_builder.dart';
 import 'package:prepare/components/source_file_manager.dart';
 import 'package:prepare/log.dart';
@@ -21,14 +22,14 @@ class PrepareQueue {
     if (_buildingFiles[file.path] == true) return;
 
     // Load the source file.
-    final sourceFile = SourceFileManager.load(file);
-    if (sourceFile == null) return;
+    final source = SourceFileManager.load(file, builder.extensions);
+    if (source == null) return;
 
     // Mark the file as building.
     _buildingFiles[file.path] = true;
 
     try {
-      await builder.build(sourceFile);
+      await PrepareBuildCommand.tryBuild(source, builder);
     } catch (error) {
       log("${builder.name} Error: $error", color: red);
     } finally {

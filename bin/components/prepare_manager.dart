@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:package_config/package_config.dart';
 import 'package:yaml/yaml.dart';
 
-import 'prepare_builder.dart';
+import 'prepare_yaml.dart';
 
 class PrepareManager {
-  static List<PrepareBuilder> getBuilders(PackageConfig config) {
-    final builders = <PrepareBuilder>[];
+  static List<PrepareYaml> getYamls(PackageConfig config) {
+    final builders = <PrepareYaml>[];
 
     for (final package in config.packages) {
       final yamlPaths = [
@@ -23,7 +23,7 @@ class PrepareManager {
         final yaml = loadYaml(text);
 
         builders.add(
-          PrepareBuilder(
+          PrepareYaml(
             runBuild: yaml["builder"]["run_build"],
             runWatch: yaml["builder"]["run_watch"],
           ),

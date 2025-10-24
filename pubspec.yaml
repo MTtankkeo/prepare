@@ -1,16 +1,17 @@
 name: prepare
-description: A sample command-line application with basic argument parsing.
-version: 0.0.1
-publish_to: none # Temp
-# repository: https://github.com/my_org/my_repo
+description: A Dart CLI tool for managing and supporting Dart AST-based code generators.
+version: 1.0.0
+publisher: ttankkeo112@gmail.com
+repository: https://github.com/MTtankkeo/prepare
 
 environment:
-  sdk: ^3.11.0-7.0.dev
+  sdk: '>=3.0.0 <4.0.0'
 
 # Add regular dependencies here.
 dependencies:
   args: ^2.7.0
   package_config: ^2.2.0
+  pool: ^1.5.2
   yaml: ^3.1.3
 
 dev_dependencies:

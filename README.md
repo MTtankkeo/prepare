@@ -1,1 +1,2 @@
-A sample command-line application providing basic argument parsing with an entrypoint in `bin/`.
+# Introduction
+A Dart CLI for managing and supporting Dart AST-based code generators.
