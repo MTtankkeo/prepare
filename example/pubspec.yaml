@@ -1,0 +1,21 @@
+name: example
+description: A sample command-line application with basic argument parsing.
+version: 0.0.1
+publish_to: none # Temp
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ^3.11.0-7.0.dev
+
+# Add regular dependencies here.
+dependencies:
+  prepare:
+    path: "../"
+  datagen:
+    git:
+      url: https://github.com/MTtankkeo/datagen
+      ref: main
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6
