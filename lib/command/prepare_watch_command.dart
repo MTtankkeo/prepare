@@ -29,7 +29,7 @@ abstract class PrepareWatchCommand extends Command {
 
       // Watch for changes.
       await for (final event in dir.watch(recursive: true)) {
-        if (event.type == FileSystemEvent.modify) {
+        if (event.type != FileSystemEvent.delete) {
           // Skip if a build is already running.
           PrepareQueue.tryBuild(File(event.path), builder);
         }
