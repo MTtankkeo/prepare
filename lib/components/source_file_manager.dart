@@ -5,6 +5,19 @@ import 'source_file.dart';
 class SourceFileManager {
   const SourceFileManager._();
 
+  /// The delay between consecutive checks when waiting for a file to be unlocked.
+  static Duration lockCheckDelay = Duration(milliseconds: 1);
+
+  /// Returns whether the given file is locked or not.
+  static bool isFileLocked(File file) {
+    try {
+      file.openSync(mode: FileMode.append).closeSync();
+      return false;
+    } catch (_) {
+      return true;
+    }
+  }
+
   /// Loads a [SourceFile] from the given [file] if its extension
   /// matches one of the allowed [extensions].
   static SourceFile? load(File file, List<String> extensions) {
@@ -13,6 +26,12 @@ class SourceFileManager {
       if (!extensions.any((e) => file.path.endsWith(e))) {
         return null;
       }
+    }
+
+    // Waits until the given file is no longer locked by another process.
+    while (true) {
+      if (!isFileLocked(file)) break;
+      sleep(lockCheckDelay);
     }
 
     // Read file content and create a SourceFile instance.

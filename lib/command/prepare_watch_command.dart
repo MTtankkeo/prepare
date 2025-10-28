@@ -39,7 +39,11 @@ abstract class PrepareWatchCommand extends Command {
 
       // Watch for changes.
       await for (final event in directory.watch(recursive: true)) {
-        if (observedEvents.contains(event.type)) {
+        if (!observedEvents.contains(event.type)) continue;
+
+        final entity = FileSystemEntity.typeSync(event.path);
+
+        if (entity == FileSystemEntityType.file) {
           // Skip if a build is already running.
           PrepareQueue.tryBuild(File(event.path), builder);
         }
