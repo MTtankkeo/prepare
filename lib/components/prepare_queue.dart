@@ -14,7 +14,7 @@ class PrepareQueue {
   static final Map<String, bool> _buildingFiles = {};
 
   /// Delay before allowing another build for the same file.
-  static Duration delayDuration = Duration(milliseconds: 1);
+  static Duration delayDuration = Duration(milliseconds: 10);
 
   /// Attempts to build the given [file] if it is not already being built.
   /// Prevents duplicate builds for the same file by using [_buildingFiles] map.
