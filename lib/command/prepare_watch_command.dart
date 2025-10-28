@@ -13,13 +13,23 @@ abstract class PrepareWatchCommand extends Command {
   @override
   String get description => "Generates files for Dart with watch mode.";
 
+  /// The directory to monitor for file changes during watch mode.
+  Directory get directory => Directory("./");
+
+  /// The types of file system events to monitor during watch mode.
+  List<int> get observedEvents {
+    return [
+      FileSystemEvent.create,
+      FileSystemEvent.modify,
+      FileSystemEvent.move,
+    ];
+  }
+
   /// Returns the instance of [PrepareBuilder].
   PrepareBuilder get builder;
 
   @override
   Future<void> run() async {
-    final dir = Directory("./");
-
     try {
       // Start the build process on the current directory.
       log(
@@ -28,8 +38,8 @@ abstract class PrepareWatchCommand extends Command {
       );
 
       // Watch for changes.
-      await for (final event in dir.watch(recursive: true)) {
-        if (event.type != FileSystemEvent.delete) {
+      await for (final event in directory.watch(recursive: true)) {
+        if (observedEvents.contains(event.type)) {
           // Skip if a build is already running.
           PrepareQueue.tryBuild(File(event.path), builder);
         }

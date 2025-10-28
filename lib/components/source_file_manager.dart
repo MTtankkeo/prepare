@@ -9,8 +9,10 @@ class SourceFileManager {
   /// matches one of the allowed [extensions].
   static SourceFile? load(File file, List<String> extensions) {
     // Skip files that don't match any of the given extensions.
-    if (!extensions.any((e) => file.path.endsWith(e))) {
-      return null;
+    if (extensions.isNotEmpty) {
+      if (!extensions.any((e) => file.path.endsWith(e))) {
+        return null;
+      }
     }
 
     // Read file content and create a SourceFile instance.
